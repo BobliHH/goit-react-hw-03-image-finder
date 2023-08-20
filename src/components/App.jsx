@@ -1,60 +1,92 @@
-import { useState, useRef } from 'react';
-import { searchImages } from './requests';
+import React, { Component } from 'react';
+import SearchBar from './SearchBar/SearchBar';
+import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
+import axios from 'axios';
 
-export default function App() {
-  // ne trebuie un state in care sa tinem array-ul de imagini
-  const [images, setImages] = useState([]);
-  // folosim ref ca sa putem vedea valoarea din input
-  // cand dam "submit" la form
-  const inputRef = useRef();
-  // functia care se apeleaza la "submit" form
-  const handleSearch = e => {
-    // nu lasam cursul normal al formularelor
-    e.preventDefault();
-    // ne uitam la valoarea inputului
-    const currentValue = inputRef.current.value;
-    if (currentValue) {
-      // daca inputul are valoare
-      // apelam api-ul si setam imaginile
-      searchImages(currentValue).then(res => {
-        console.log(res.hits);
-        setImages(res.hits);
-      });
-    } else {
-      // daca inputul e gol
-      // setam ca gol arrayul de imagini
-      setImages([]);
-    }
+class App extends Component {
+  state = {
+    images: [],
+    isLoading: false,
+    error: null,
+    query: '',
+    page: 1,
+    showModal: false,
+    selectedImage: null,
+    isLastPage: false,
   };
-  return (
-    <div className="App">
-      <div className="Searchbar">
-        <form className="SearchForm" onSubmit={handleSearch}>
-          <button className="SearchForm-button" type="submit">
-            Search
-          </button>
-          <input
-            className="SearchForm-input"
-            ref={inputRef}
-            type="text"
-            name="search"
-          />
-        </form>
+
+  componentDidUpdate(_prevProps, prevState) {
+    if (prevState.query !== this.state.query) {
+      this.setState({ images: [], page: 1, isLastPage: false }, () => {
+        this.fetchImages();
+      });
+    }
+  }
+  fetchImages = () => {
+    const { query, page } = this.state;
+    const API_KEY = '36858023-bcc8002212b119e45a3b53208';
+
+    this.setState({ isLoading: true });
+
+    axios
+      .get(
+        `https://pixabay.com/api/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+      )
+      .then(response => {
+        const { hits, totalHits } = response.data;
+
+        if (hits.length === 0) {
+          return alert(
+            'Sorry, there are no images matching your request...',
+            {}
+          );
+        }
+
+        const modifiedHits = hits.map(
+          ({ id, tags, webformatURL, largeImageURL }) => ({
+            id,
+            tags,
+            webformatURL,
+            largeImageURL,
+          })
+        );
+
+        this.setState(prevState => ({
+          images: [...prevState.images, ...modifiedHits],
+          page: prevState.page + 1,
+          isLastPage:
+            prevState.images.length + modifiedHits.length >= totalHits,
+        }));
+      })
+      .catch(error => {
+        this.setState({ error: error.message });
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
+  };
+
+  handleSearchSubmit = query => {
+    if (this.state.query === query) {
+      return;
+    }
+    this.setState({
+      query: query,
+      page: 1,
+      images: [],
+      error: null,
+      isLastPage: false,
+    });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <SearchBar onSubmit={this.handleSearchSubmit} />
       </div>
-      <div className="ImageGallery">
-        {images.length > 0 &&
-          images.map(img => {
-            return (
-              <div className="ImageGalleryItem" key={img.id}>
-                <img
-                  className="ImageGalleryItem-image"
-                  src={img.previewURL}
-                  alt=""
-                />
-              </div>
-            );
-          })}
-      </div>
-    </div>
-  );
+    );
+  }
 }
+
+export default App;
