@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './SearchBar.css';
+import './SearchBar.css';
 
 class Searchbar extends Component {
   state = {
@@ -22,10 +22,10 @@ class Searchbar extends Component {
 
   render() {
     return (
-      <header className={styles.Searchbar}>
-        <form className={styles.SearchForm} onSubmit={this.search}>
-          <button type="submit" className={styles.button}>
-            <span className={styles.label}>Search...</span>
+      <header className="Searchbar">
+        <form className="SearchForm" onSubmit={this.search}>
+          <button type="submit" className="button">
+            <span className="lable">Search...</span>
           </button>
 
           <input
@@ -36,7 +36,7 @@ class Searchbar extends Component {
             value={this.state.input}
             autoFocus
             placeholder="Search images and photos"
-            className={styles.input}
+            className="input"
           />
         </form>
       </header>
