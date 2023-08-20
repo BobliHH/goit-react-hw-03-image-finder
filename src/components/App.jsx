@@ -5,6 +5,7 @@ import Button from './Button/Button';
 import axios from 'axios';
 import Loader from './Loader/Loader';
 import './App.css';
+import Modal from './Modal/Modal';
 
 class App extends Component {
   state = {
@@ -87,8 +88,14 @@ class App extends Component {
     document.body.style.overflow = 'hidden';
   };
 
+  handleModalClose = () => {
+    this.setState({ selectedImage: null, showModal: false });
+    document.body.style.overflow = 'auto';
+  };
+
   render() {
-    const { error, images, isLoading, isLastPage } = this.state;
+    const { error, images, isLoading, isLastPage, showModal, selectedImage } =
+      this.state;
     return (
       <div className="App">
         <SearchBar onSubmit={this.handleSearchSubmit} />
@@ -97,6 +104,9 @@ class App extends Component {
         {isLoading && <Loader />}
         {!isLoading && images.length > 0 && !isLastPage && (
           <Button onClick={this.fetchImages} />
+        )}
+        {showModal && (
+          <Modal image={selectedImage} onClose={this.handleModalClose} />
         )}
       </div>
     );
