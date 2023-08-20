@@ -4,6 +4,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import axios from 'axios';
 import Loader from './Loader/Loader';
+import './App.css';
 
 class App extends Component {
   state = {
@@ -87,13 +88,16 @@ class App extends Component {
   };
 
   render() {
-    const { error, images, isLoading } = this.state;
+    const { error, images, isLoading, isLastPage } = this.state;
     return (
       <div className="App">
         <SearchBar onSubmit={this.handleSearchSubmit} />
         {error && <p>Error: {error}</p>}
         <ImageGallery images={images} onItemClick={this.handleImageClick} />
         {isLoading && <Loader />}
+        {!isLoading && images.length > 0 && !isLastPage && (
+          <Button onClick={this.fetchImages} />
+        )}
       </div>
     );
   }
