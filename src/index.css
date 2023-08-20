@@ -18,8 +18,8 @@ html {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #212121;
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
@@ -45,7 +45,7 @@ img {
 /*
  * Стили компонента Searchbar
  */
-.Searchbar {
+/*.Searchbar {
   top: 0;
   left: 0;
   position: sticky;
@@ -67,7 +67,7 @@ img {
 /*
  * Стили компонента SearchForm
  */
-.SearchForm {
+/*.SearchForm {
   display: flex;
   align-items: center;
   width: 100%;
@@ -82,7 +82,7 @@ img {
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
+  background-image: url("https://image.flaticon.com/icons/svg/149/149852.svg");
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;
@@ -126,7 +126,7 @@ img {
 
 /*
  * Стили компонента ImageGallery
- */
+ */ /*
 .ImageGallery {
   display: grid;
   max-width: calc(100vw - 48px);
@@ -142,7 +142,7 @@ img {
 
 /*
  * Стили компонента ImageGalleryItem
- */
+ */ /*
 .ImageGalleryItem {
   border-radius: 2px;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
@@ -163,7 +163,7 @@ img {
 
 /*
  * Стили компонента Modal
- */
+ */ /*
 
 .Overlay {
   position: fixed;
@@ -185,7 +185,7 @@ img {
 
 /*
 * Стили компонента Buton (Load more)
-*/
+*/ /*
 .Button {
   padding: 8px 16px;
   border-radius: 2px;
@@ -211,3 +211,4 @@ img {
 .Button:focus {
   background-color: #303f9f;
 }
+*/

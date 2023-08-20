@@ -80,10 +80,18 @@ class App extends Component {
     });
   };
 
+  handleImageClick = image => {
+    this.setState({ selectedImage: image, showModal: true });
+    document.body.style.overflow = 'hidden';
+  };
+
   render() {
+    const { error, images } = this.state;
     return (
       <div className="App">
         <SearchBar onSubmit={this.handleSearchSubmit} />
+        {error && <p>Error: {error}</p>}
+        <ImageGallery images={images} onItemClick={this.handleImageClick} />
       </div>
     );
   }
