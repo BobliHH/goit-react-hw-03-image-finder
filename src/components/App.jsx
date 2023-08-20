@@ -3,6 +3,7 @@ import SearchBar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import axios from 'axios';
+import Loader from './Loader/Loader';
 
 class App extends Component {
   state = {
@@ -86,12 +87,13 @@ class App extends Component {
   };
 
   render() {
-    const { error, images } = this.state;
+    const { error, images, isLoading } = this.state;
     return (
       <div className="App">
         <SearchBar onSubmit={this.handleSearchSubmit} />
         {error && <p>Error: {error}</p>}
         <ImageGallery images={images} onItemClick={this.handleImageClick} />
+        {isLoading && <Loader />}
       </div>
     );
   }
